@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Dynamic Docs]((https://docs.dynamic.xyz/introduction/welcome)) [`BICONOMY-DOCS`]([https://github.com/vercel/next.js/tree/canary/packages/create-next-app](https://docs.biconomy.io/) [`Particle Auth check docs`]).
 
 ## Getting Started
 
