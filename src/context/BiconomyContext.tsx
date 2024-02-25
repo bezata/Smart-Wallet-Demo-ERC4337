@@ -15,6 +15,7 @@ interface UserBalance {
 interface BiconomyContextType {
   saAddress: string; // Renamed for clarity
   setSmartAddress: Dispatch<SetStateAction<string>>; // Ensure this is correct
+  setUserBalance: Dispatch<SetStateAction<UserBalance>>;
 }
 
 const BiconomyContext = createContext<BiconomyContextType | undefined>(

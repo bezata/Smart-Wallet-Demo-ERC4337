@@ -8,6 +8,7 @@ import { ZeroDevSmartWalletConnectors } from "@dynamic-labs/ethereum-aa";
 import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
 import { BiconomyProvider } from "../context/BiconomyContext";
 
+
 export default function App({ Component, pageProps }) {
   const queryClient = new QueryClient();
 

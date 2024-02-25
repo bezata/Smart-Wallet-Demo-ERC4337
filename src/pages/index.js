@@ -14,6 +14,7 @@ import Link from "next/link";
 import BiconomyAuth from "../utils/biconomyAuth.tsx";
 import { useBiconomy } from "../context/BiconomyContext";
 
+
 export default function Home() {
   const { saAddress, userBalance } = useBiconomy();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,6 +46,7 @@ export default function Home() {
     >
       <div className="fixed flex items-center gap-5 right-7  top-0">
         <BiconomyAuth></BiconomyAuth>
+
         <button
           className="m-2 px-4 py-3 text-black bg-white  font-bold border-l-gray-800 shadow-md shadow-black"
           onClick={() => setIsModalOpen(true)}
@@ -68,11 +70,14 @@ export default function Home() {
 
         <p>
           Chain:{" "}
-          {chain ? chain?.formatted.toString() : "Sepolia" || "Not Connected"}
+          {chain?.formatted
+            ? chain?.formatted.toString()
+            : "Sepolia" || "Not Connected"}
         </p>
+
         <p>
           Balance:{" "}
-          {data && userBalance
+          {data
             ? `${data?.formatted.toString()} ${data?.symbol.toString()}`
             : `${userBalance?.formatted.toString()} ${userBalance?.symbol.toString()}` ||
               "Not Connected"}

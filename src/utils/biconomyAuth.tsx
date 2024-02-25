@@ -6,7 +6,7 @@ import {
   WalletClient,
   encodeFunctionData,
 } from "viem";
-import { baseGoerli } from "viem/chains";
+import { sepolia } from "viem/chains";
 import "viem/window";
 import { IBundler, Bundler } from "@biconomy/bundler";
 import {
@@ -18,7 +18,7 @@ import {
   DEFAULT_ECDSA_OWNERSHIP_MODULE,
 } from "@biconomy/modules";
 import { ChainId } from "@biconomy/core-types";
-import { getNetwork } from "@wagmi/core";
+
 import {
   IPaymaster,
   BiconomyPaymaster,
@@ -27,9 +27,9 @@ import {
   PaymasterMode,
 } from "@biconomy/paymaster";
 import { WalletClientSigner } from "@alchemy/aa-core";
-import abi from "../utils/abi.json";
 import { useBalance } from "wagmi";
 import { useBiconomy } from "../context/BiconomyContext";
+import nftAbi from "../pages/api/nft.abi.json";
 
 export default function BiconomyAuth() {
   const { setSmartAddress, setUserBalance } = useBiconomy();
@@ -41,8 +41,8 @@ export default function BiconomyAuth() {
 
   const bundler: IBundler = new Bundler({
     bundlerUrl:
-      "https://bundler.biconomy.io/api/v2/84531/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
-    chainId: ChainId.BASE_GOERLI_TESTNET,
+      "https://bundler.biconomy.io/api/v2/11155111/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
+    chainId: ChainId.SEPOLIA,
     entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
   });
 
@@ -56,7 +56,7 @@ export default function BiconomyAuth() {
   setUserBalance(userBalances);
   const paymaster: IPaymaster = new BiconomyPaymaster({
     paymasterUrl:
-      "https://paymaster.biconomy.io/api/v1/84531/TEgx1utKj.b8e621dd-6ba8-4ab4-b9e6-877708f278c8",
+      "https://paymaster.biconomy.io/api/v1/11155111/jbBjMxBz8.35bcf0e7-5b49-4385-a79d-6fc0fd76db6c",
   });
 
   const connect = async () => {
@@ -67,7 +67,7 @@ export default function BiconomyAuth() {
 
     const client = createWalletClient({
       account,
-      chain: baseGoerli,
+      chain: sepolia,
       transport: custom(window.ethereum),
     });
     setWalletClient(client);
@@ -82,7 +82,7 @@ export default function BiconomyAuth() {
     });
 
     let biconomySmartAccount = await BiconomySmartAccountV2.create({
-      chainId: ChainId.BASE_GOERLI_TESTNET,
+      chainId: ChainId.SEPOLIA,
       bundler: bundler,
       paymaster: paymaster,
       entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
@@ -99,13 +99,13 @@ export default function BiconomyAuth() {
   const mintNFT = async () => {
     try {
       const data = encodeFunctionData({
-        abi: abi.abi,
-        functionName: "safeMint",
-        args: [saAddress],
+        abi: nftAbi,
+        functionName: "mint",
+        args: [1],
       });
 
       const tx1 = {
-        to: "0x0a7755bDfb86109D9D403005741b415765EAf1Bc",
+        to: "0x8286fdBEbCB0df8e5aaB88f9dAde8448058e49a3",
         data: data,
       };
 
@@ -119,6 +119,7 @@ export default function BiconomyAuth() {
           name: "BICONOMY",
           version: "2.0.0",
         },
+        calculateGasLimits: true,
       };
 
       const paymasterAndDataResponse =
@@ -126,10 +127,13 @@ export default function BiconomyAuth() {
           userOp,
           paymasterServiceData
         );
-
+      userOp.callGasLimit = paymasterAndDataResponse.callGasLimit;
+      userOp.verificationGasLimit =
+        paymasterAndDataResponse.verificationGasLimit;
+      userOp.preVerificationGas = paymasterAndDataResponse.preVerificationGas;
       userOp.paymasterAndData = paymasterAndDataResponse.paymasterAndData;
       const userOpResponse = await smartAccount?.sendUserOp(userOp);
-      console.log("userOpHash", userOpResponse);
+
       const { receipt } = await userOpResponse.wait(1);
       console.log("txHash", receipt.transactionHash);
     } catch (error) {
@@ -146,6 +150,12 @@ export default function BiconomyAuth() {
             onClick={createSmartAccount}
           >
             {saAddress ? "Smart Account Active" : "Create Smart Account"}
+          </button>{" "}
+          <button
+            className="m-2 px-4 py-3 text-black bg-white  font-bold border-l-gray-800 shadow-md shadow-black"
+            onClick={mintNFT}
+          >
+            Mint Gassless NFT
           </button>
         </>
       ) : (
