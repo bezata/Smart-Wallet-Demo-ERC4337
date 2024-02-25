@@ -1,4 +1,4 @@
-This is a [`Dynamic Docs`]([https://docs.dynamic.xyz/introduction/welcome]) [`BICONOMY-DOCS`]([https://github.com/vercel/next.js/tree/canary/packages/create-next-app](https://docs.biconomy.io/) [`Particle Auth check docs`]) and check zerodev
+This is a [`Dynamic Docs`](https://docs.dynamic.xyz/introduction/welcome) [`BICONOMY-DOCS`](https://docs.biconomy.io) [`Particle Auth check docs`]) and check zerodev
 
 ## Getting Started
 
