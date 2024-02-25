@@ -51,6 +51,7 @@ export default function BiconomyAuth() {
     isError,
     isLoading,
   } = useBalance({
+    // @ts-ignore
     address: `${saAddress}`,
   });
   setUserBalance(userBalances);
@@ -61,6 +62,7 @@ export default function BiconomyAuth() {
 
   const connect = async () => {
     if (!window.ethereum) return;
+    // @ts-ignore
     const [account] = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
@@ -75,6 +77,7 @@ export default function BiconomyAuth() {
 
   const createSmartAccount = async () => {
     if (!walletClient) return;
+    // @ts-ignore
     const signer = new WalletClientSigner(walletClient, "json-rpc");
     const ownerShipModule = await ECDSAOwnershipValidationModule.create({
       signer: signer,
