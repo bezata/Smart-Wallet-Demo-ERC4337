@@ -40,8 +40,7 @@ export default function BiconomyAuth() {
   >();
 
   const bundler: IBundler = new Bundler({
-    bundlerUrl:
-      "https://bundler.biconomy.io/api/v2/11155111/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
+    bundlerUrl: process.env.BUNDLER,
     chainId: ChainId.SEPOLIA,
     entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
   });
@@ -56,8 +55,7 @@ export default function BiconomyAuth() {
   });
   setUserBalance(userBalances);
   const paymaster: IPaymaster = new BiconomyPaymaster({
-    paymasterUrl:
-      "https://paymaster.biconomy.io/api/v1/11155111/jbBjMxBz8.35bcf0e7-5b49-4385-a79d-6fc0fd76db6c",
+    paymasterUrl: process.env.PAYMASTER,
   });
 
   const connect = async () => {

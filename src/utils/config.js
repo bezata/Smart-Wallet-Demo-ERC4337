@@ -8,7 +8,7 @@ import { createPublicClient, http } from "viem";
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia],
   [publicProvider()],
-  alchemyProvider({ apiKey: "eVC-zQXm_pLvhIE_rc58-w2156KgDsxA" })
+  alchemyProvider({ apiKey: process.env.API })
 );
 
 export const configSetter = createConfig({

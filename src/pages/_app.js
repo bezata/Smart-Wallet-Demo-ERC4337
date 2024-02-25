@@ -11,13 +11,14 @@ import { BiconomyProvider } from "../context/BiconomyContext";
 
 export default function App({ Component, pageProps }) {
   const queryClient = new QueryClient();
+  const environmentIds = process.env.DYNAMICENVIOREMENTID;
 
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={configSetter}>
         <DynamicContextProvider
           settings={{
-            environmentId: "97cf9e0c-3110-4228-9c5f-868e2bf652b9",
+            environmentId: ` ${environmentIds}`,
             walletConnectors: [
               EthereumWalletConnectors,
               ZeroDevSmartWalletConnectors,
